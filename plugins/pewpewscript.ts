@@ -15,7 +15,10 @@ class CustomPrinter extends tstl.LuaPrinter {
 
   /* Override printNumericLiteral */
   public printNumericLiteral(expression: tstl.NumericLiteral): SourceNode {
-    return this.createSourceNode(expression, `${expression.value}fx`)
+    if (expression.flags === 20)
+      // Check for the arbitrary flag
+      return this.createSourceNode(expression, `${expression.value}fx`)
+    else return this.createSourceNode(expression, `${expression.value}`)
   }
 }
 
@@ -24,16 +27,15 @@ const plugin: tstl.Plugin = {
     new CustomPrinter(emitHost, program, fileName).print(file),
   visitors: {
     // TODO: find a way to get fixedpoint type
-    // Visit string literals, if original transformer returns a string literal, change the string to "bar" instead
-    [ts.SyntaxKind.StringLiteral]: (node, context) => {
-      // `context` exposes `superTransform*` methods, that can be used to call either the visitor provided by previous
-      // plugin, or a standard TypeScriptToLua visitor
+    [ts.SyntaxKind.NumericLiteral]: (node, context) => {
       const result = context.superTransformExpression(node)
-      // Standard visitor for ts.StringLiteral always returns tstl.StringLiteral node
-      if (tstl.isStringLiteral(result)) {
-        result.value = "bar"
-      }
+      //console.log("\n==============================================\n")
+      //console.log(context.checker.getContextualType(node))
 
+      if (context.checker.getContextualType(node)?.aliasSymbol?.escapedName === "fixedpoint") {
+        //context.createTempNameForNode(node)
+        result.flags = 20 // Sending arbitrary flag for marking the node as fixedpoint
+      }
       return result
     },
   },

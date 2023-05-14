@@ -12,6 +12,6 @@
   "tstl": {
     "luaTarget": "5.3",
     //"sourceMapTraceback": true // TODO: discuss the possibility
-    //"luaPlugins": [{ "name": "./plugins/pewpewscript.ts" }]
+    "luaPlugins": [{ "name": "./plugins/pewpewscript.ts" }]
   }
 }
