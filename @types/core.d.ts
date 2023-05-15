@@ -1,7 +1,7 @@
 /**
  * Stores fixed point numbers. Used for storing and computing all the game related values that require more precision than what integer numbers can provide.
  */
-declare type fixedpoint = number & { _: "fixedpoint" } // TODO: implement fixedpoint parsing
+declare type fixedpoint = number & { _: "fixedpoint" }
 /**
  * An alias for fixedpoint type.
  */

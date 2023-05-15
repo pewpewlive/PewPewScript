@@ -4,14 +4,17 @@
     "target": "ESNext",
     "lib": ["ESNext"],
     "moduleResolution": "Node",
-    "types": ["@typescript-to-lua/language-extensions"],
+    "types": ["@typescript-to-lua/language-extensions", "lua-types/5.3"],
     "strict": true,
-    "noLib": false
+    "noLib": false,
+    "resolveJsonModule": true
   },
   "exclude": ["plugins"],
   "tstl": {
     "luaTarget": "5.3",
     //"sourceMapTraceback": true // TODO: discuss the possibility
-    "luaPlugins": [{ "name": "./plugins/pewpewscript.ts" }]
+    "luaPlugins": [{ "name": "./plugins/pewpewscript.ts" }],
+    "noHeader": true,
+    "tstlVerbose": true
   }
 }
