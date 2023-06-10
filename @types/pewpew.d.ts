@@ -1,6 +1,8 @@
 /**
+ * @noSelfInFile
+ */
+/**
  * The pewpew library contains all the functions for configuring levels and managing entities.
- * @noSelf
  */
 declare namespace pewpew {
   // ENUMS
@@ -52,12 +54,24 @@ declare namespace pewpew {
     ATOMIZE,
     SMALL_ATOMIZE,
   }
+  export enum BonusType {
+    REINSTANTIATION,
+    SHIELD,
+    SPEED,
+    WEAPON,
+  }
   export enum MothershipType {
     THREE_CORNERS,
     FOUR_CORNERS,
     FIVE_CORNERS,
     SIX_CORNERS,
     SEVEN_CORNERS,
+  }
+  export enum WeaponType {
+    BULLET,
+    FREEZE_EXPLOSION,
+    REPULSIVE_EXPLOSION,
+    ATOMIZE_EXPLOSION,
   }
   // FUNCTIONS
   /**
@@ -240,6 +254,28 @@ declare namespace pewpew {
    */
   export function new_bomb(x: fixedpoint, y: fixedpoint, bomb_type: BombType): EntityId
   /**
+   * Creates a new Bonus at the location `x`,`y` of the type type, and returns its entityId.
+   */
+  export function new_bonus(
+    x: fixedpoint,
+    y: fixedpoint,
+    type: BonusType,
+    config: BonusConfig
+  ): EntityId
+  /**
+   * Creates a new Crowder at the location `x`, `y`, and returns its entityId.
+   */
+  export function new_crowder(x: fixedpoint, y: fixedpoint): EntityId
+  /**
+   * Creates a new floating message at the location `x`, `y`, with str as the message.
+   */
+  export function new_floating_message(
+    x: fixedpoint,
+    y: fixedpoint,
+    str: string,
+    config: FloatingMessageConfig
+  ): EntityId
+  /**
    * Creates a new customizable entity at the location `x`,`y` and returns its entityId.
    */
   export function new_customizable_entity(x: fixedpoint, y: fixedpoint): EntityId
@@ -262,11 +298,16 @@ declare namespace pewpew {
     angle: fixedpoint
   ): EntityId
   /**
+   * Creates a new Pointonium at the location `x`, `y`.
+   */
+  export function new_pointonium(x: fixedpoint, y: fixedpoint, value: 64 | 128 | 256): EntityId
+  /**
    * Creates a new Player Ship at the location `x`,`y` for the player identified by `player_index`, and returns its entityId.
    */
   export function new_player_ship(x: fixedpoint, y: fixedpoint, player_index: number): EntityId
   /**
-   * Creates a new bullet at the location `x`,`y` with the angle `angle` belonging to the player at the index `player_index`. Returns the entityId of the bullet.
+   * Creates a new bullet at the location `x`,`y`
+   * with the angle `angle` belonging to the player at the index `player_index`. Returns the entityId of the bullet.
    */
   export function new_player_bullet(
     x: fixedpoint,
@@ -281,11 +322,258 @@ declare namespace pewpew {
   /**
    * Creates a new Rolling Sphere  at the location `x`,`y` and returns its entityId.
    */
-  export function new_rolling_sphere(x: fixedpoint, y: fixedpoint, angle: fixedpoint, speed: fixedpoint): EntityId
+  export function new_rolling_sphere(
+    x: fixedpoint,
+    y: fixedpoint,
+    angle: fixedpoint,
+    speed: fixedpoint
+  ): EntityId
+  /**
+   * Creates a new Wary at the location `x`, `y`.
+   */
+  export function new_wary(x: fixedpoint, y: fixedpoint): EntityId
+  /**
+   * Creates a new UFO at the location `x`, `y` moving horizontally at the speed of `dx`, and returns its entityId.
+   */
+  export function new_ufo(x: fixedpoint, y: fixedpoint, dx: fixedpoint): EntityId
+  /**
+   * Sets whether the Rolling Cube identified with id collides with walls.
+   *
+   * By default, it does not.
+   */
+  export function rolling_cube_set_enable_collisions_with_walls(
+    entity_id: EntityId,
+    collide_with_walls: boolean
+  ): void
+  /**
+   * Sets whether the UFO identified with `id` collides with walls.
+   *
+   * By default, it does not.
+   */
+  export function ufo_set_enable_collisions_with_walls(
+    entity_id: EntityId,
+    collide_with_walls: boolean
+  ): void
   /**
    * Returns the position of the entity identified by id.
    */
   export function entity_get_position(
     entity: EntityId
   ): LuaMultiReturn<[x: fixedpoint, y: fixedpoint]>
+  /**
+   * Returns whether the entity identified by `id` is alive or not.
+   */
+  export function entity_get_is_alive(entity_id: EntityId): boolean
+  /**
+   * Returns whether the entity identified by `id` is in the process of being destroyed.
+   *
+   * Returns false if the entity does not exist.
+   */
+  export function entity_get_is_started_to_be_destroyed(entity_id: EntityId): boolean
+  /**
+   * Sets the position of the entity identified by `id` to `x`, `y`.
+   */
+  export function entity_set_position(entity_id: EntityId, x: fixedpoint, y: fixedpoint): void
+  /**
+   * Sets the radius of the entity identified by `id`.
+   *
+   * To give you a sense of scale, motherships have a radius of 28fx.
+   */
+  export function entity_set_radius(entity_id: EntityId, radius: fixedpoint): void
+  /**
+   * Sets a callback that will be called at every tick as long as the entity identified by `id` is alive.
+   *
+   * Remove the callback by passing an undefined `callback`.
+   *
+   * The callbacks gets called with the entity ID.
+   */
+  export function entity_set_update_callback(
+    entity_id: EntityId,
+    callback: (entity_id: EntityId) => void
+  ): void
+  /**
+   * Makes the entity identified by `id` immediately disappear forever.
+   */
+  export function entity_destroy(entity_id: EntityId): void
+  /**
+   * Makes the entity identified by `id` react to the weapon described in `weapon_description`.
+   *
+   * Returns whether the entity reacted to the weapon.
+   *
+   * The returned value is typically used to decide whether the weapon should continue to exist or not.
+   */
+  export function entity_react_to_weapon(entity_id: EntityId, weapon: WeaponDescription): boolean
+  /**
+   * Sets whether the position of the mesh wil be interpolated when rendering.
+   *
+   * In general, this should be set to true if the entity will be moving smoothly.
+   */
+  export function customizable_entity_set_position_interpolation(
+    entity_id: EntityId,
+    enable: boolean
+  ): void
+  /**
+   * Sets the mesh of the customizable entity identified by `id` to the mesh described in the file `file_path` at the index `index`.
+   *
+   * `index` starts at 0.
+   *
+   * If `file_path` is an empty string, the mesh is removed.
+   */
+  export function customizable_entity_set_mesh(
+    entity_id: EntityId,
+    file_path: string,
+    index: number
+  ): void
+  /**
+   * Similar to `customizable_entity_set_mesh`, but sets two meshes that will be used in alternation.
+   *
+   * By specifying 2 separate meshes, 60 fps animations can be achieved.
+   */
+  export function customizable_entity_set_flipping_meshes(
+    entity_id: EntityId,
+    file_path: string,
+    index_0: number,
+    index_1: number
+  ): void
+  /**
+   * Sets the color multiplier for the mesh of the customizable entity identified by `id`.
+   */
+  export function customizable_entity_set_mesh_color(entity_id: EntityId, color: number): void
+  /**
+   * Sets the string to be displayed as part of the mesh of the customizable entity identified by `id`.
+   */
+  export function customizable_entity_set_string(entity_id: EntityId, text: string): void
+  /**
+   * Sets the position of the mesh to `x`, `y`, `z`, relative to the center ofthe customizable entity identified by `id`.
+   */
+  export function customizable_entity_set_mesh_xyz(
+    entity_id: EntityId,
+    x: fixedpoint,
+    y: fixedpoint,
+    z: fixedpoint
+  ): void
+  /**
+   * Sets the height of the mesh of the customizable entity identified by `id`.
+   *
+   * A `z` greater to 0 makes the mesh be closer, while a `z` less than 0 makes the mesh be further away.
+   */
+  export function customizable_entity_set_mesh_z(entity_id: EntityId, z: fixedpoint): void
+  /**
+   * Sets the scale of the mesh of the customizable entity identified by `id`.
+   *
+   * A `scale` less than 1 makes the mesh appear smaller, while a `scale` greater than 1 makes the mesh appear larger.
+   */
+  export function customizable_entity_set_mesh_scale(entity_id: EntityId, scale: fixedpoint): void
+  /**
+   * Sets the scale of the mesh of the customizable entity identified by `id` along the `x`, `y`, `z` axis.
+   *
+   * A `scale` less than 1 makes the mesh appear smaller, while a `scale` greater than 1 makes the mesh appear larger.
+   */
+  export function customizable_entity_set_mesh_xyz_scale(
+    entity_id: EntityId,
+    scale_x: fixedpoint,
+    scale_y: fixedpoint,
+    scale_z: fixedpoint
+  ): void
+  /**
+   * Sets the rotation angle of the mesh of the customizable entity identified by `id`.
+   *
+   * The rotation is applied along the axis defined by `x_axis`, `y_axis`, `z_axis`.
+   */
+  export function customizable_entity_set_mesh_angle(
+    entity_id: EntityId,
+    angle: fixedpoint,
+    x_axis: fixedpoint,
+    y_axis: fixedpoint,
+    z_axis: fixedpoint
+  ): void
+  /**
+   * Skips the interpolation of the mesh's attributes (`x`, `y`, `z`, `scale_x`, `scale_y`, `scale_z`, `rotation`).
+   */
+  export function customizable_entity_skip_mesh_attributes_interpolation(entity_id: EntityId): void
+  /**
+   * Configures the way the entity is going to respond to the music.
+   */
+  export function customizable_entity_configure_music_response(
+    entity_id: EntityId,
+    config: MusicResponseConfig
+  ): void
+  /**
+   * Adds a rotation to the mesh of the customizable entity identified by `id`.
+   *
+   * The rotation is applied along the axis defined by `x_axis`, `y_axis`, `z_axis`.
+   */
+  export function customizable_entity_set_mesh_angle(
+    entity_id: EntityId,
+    angle: fixedpoint,
+    x_axis: fixedpoint,
+    y_axis: fixedpoint,
+    z_axis: fixedpoint
+  ): void
+  /**
+   * Sets the radius defining the visibility of the entity.
+   *
+   * This allows the game to know when an entity is actually visible, which in turns allows to massively optimize the rendering.
+   *
+   * Use the smallest value possible.
+   *
+   * If not set, the rendering radius is an unspecified large number that effectively makes the entity always be rendered, even if not visible.
+   */
+  export function entity_set_radius(entity_id: EntityId, radius: fixedpoint): void
+  /**
+   * `collide_with_walls` configures whether the entity should stop when colliding with walls.
+   *
+   * If `collision_callback` is not undefined, it is called anytime a collision is detected.
+   *
+   * The callback gets called with the entity id of the entity withthe callback, and with the normal to the wall.
+   */
+  export function customizable_entity_configure_wall_collision(
+    entity_id: EntityId,
+    callback: (entity_id: EntityId, wall_normal_x: fixedpoint, wall_normal_y: fixedpoint) => void
+  ): void
+  /**
+   * Sets the callback for when the customizable entity identified by `id` collides with a player's ship.
+   *
+   * The callback gets called with the entity id of the entity with the callback,
+   * and the `player_index` and `ship_id` that were involved in the collision.
+   *
+   * Don't forget to set a radius on the customizable entity, otherwise no collisions will be detected.
+   */
+  export function customizable_entity_set_player_collision_callback(
+    entity_id: EntityId,
+    callback: (entity_id: EntityId, player_index: number, ship_entity_id: EntityId) => void
+  ): void
+  /**
+   * Sets the callback for when the customizable entity identified by id collides with a player's weapon.
+   *
+   * The callback gets called with the entity_id of the entity on which the callback is set,
+   * the player_index of the player that triggered the weapon, and the type of the weapon.
+   *
+   * The callback *must* return a boolean saying whether the entity reacts to the weapon.
+   *
+   * In the case of a bullet, this boolean determines whether the bullet should be destroyed.
+   */
+  export function customizable_entity_set_weapon_collision_callback(
+    entity_id: EntityId,
+    callback: (entity_id: EntityId, player_index: number, weapon_type: WeaponType) => boolean
+  ): void
+  /**
+   * Makes the customizable entity identified by `id` spawn for a duration of `spawning_duration` game ticks.
+   */
+  export function customizable_entity_start_spawning(
+    entity_id: EntityId,
+    spawning_duration: number
+  ): void
+  /**
+   * Makes the customizable entity identified by `id` explode for a duration of `explosion_duration` game ticks.
+   *
+   * After the explosion, the entity is destroyed.
+   *
+   * `explosion_duration` must be less than 255.
+   * Any scale applied to the entity is also applied to the explosion.
+   */
+  export function customizable_entity_start_spawning(
+    entity_id: EntityId,
+    explosion_duration: number
+  ): void
 }

@@ -1,9 +1,14 @@
 /**
+ * @noSelfInFile
+ */
+/**
  * Stores fixed point numbers. Used for storing and computing all the game related values that require more precision than what integer numbers can provide.
  */
 declare type fixedpoint = number & { _: "fixedpoint" }
 /**
- * An alias for fixedpoint type.
+ * An alias for `fixedpoint` type.
+ *
+ * Stores fixed point numbers. Used for storing and computing all the game related values that require more precision than what integer numbers can provide.
  */
 declare type fx = fixedpoint
 declare interface EntityId {}
@@ -30,3 +35,41 @@ declare interface WeaponConfig {
   duration?: number
 }
 
+/**
+ * TODO: make this type stricter
+ */
+declare interface BonusConfig {
+  box_duration?: number
+  frequency?: pewpew.CannonFrequency
+  cannon?: pewpew.CannonType
+  weapon_duration?: number
+  number_of_shields?: number
+  speed_factor?: fixedpoint
+  speed_offset?: fixedpoint
+  speed_duration?: number
+  taken_callback?: Function
+}
+
+declare interface FloatingMessageConfig {
+  scale?: fixedpoint
+  ticks_before_fade?: fixedpoint
+  is_optional?: boolean
+}
+
+declare interface WeaponDescription {
+  type: pewpew.WeaponType
+  x: fixedpoint
+  y: fixedpoint
+  player_index: number
+}
+
+declare interface MusicResponseConfig {
+  color_start?: number
+  color_end?: number
+  scale_x_start?: fixedpoint
+  scale_x_end?: fixedpoint
+  scale_y_start?: fixedpoint
+  scale_y_end?: fixedpoint
+  scale_z_start?: fixedpoint
+  scale_z_end?: fixedpoint
+}
