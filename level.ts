@@ -11,8 +11,6 @@ pewpew.configure_player_ship_weapon(player, {
   frequency: pewpew.CannonFrequency.FREQ_7_5,
 })
 
-pewpew.get_entity_count("hi")
-
 let time = 0
 pewpew.add_update_callback(() => {
   time++
