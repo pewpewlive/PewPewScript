@@ -49,7 +49,6 @@ const plugin: tstl.Plugin = {
     emitHost: tstl.EmitHost,
     result: tstl.EmitFile[]
   ) {
-    // TODO: convert relative paths to ones with /dynamic/
     void program
     void options
     void emitHost
