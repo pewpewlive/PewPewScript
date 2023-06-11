@@ -1,4 +1,4 @@
-const MARGIN = 10 as fx
+/*const MARGIN = 10 as fx
 
 export function randomPos(
   width: fixedpoint,
@@ -9,3 +9,4 @@ export function randomPos(
     fmath.random_fixedpoint(MARGIN, (height - MARGIN) as fx)
   )
 }
+*/

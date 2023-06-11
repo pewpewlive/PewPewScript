@@ -17,7 +17,7 @@ class CustomPrinter extends tstl.LuaPrinter {
 
   /* Override printNumericLiteral */
   public printNumericLiteral(expression: tstl.NumericLiteral): SourceNode {
-    // @ts-ignore
+    console.log(expression)
     if (expression.flags === 20)
       // Check for the arbitrary flag
       return this.createSourceNode(expression, `${expression.value}fx`)
@@ -32,12 +32,13 @@ const plugin: tstl.Plugin = {
     // TODO: try to improve fixedpoint support
     [ts.SyntaxKind.NumericLiteral]: (node, context) => {
       const result = context.superTransformExpression(node)
-      //console.log("\n==============================================\n")
-      //console.log(context.checker.getContextualType(node))
-
-      if (context.checker.getContextualType(node)?.aliasSymbol?.escapedName === "fixedpoint") {
+      // console.log("\n==============================================\n")
+      // console.log(node)
+      if (
+        context.checker.getContextualType(node)?.aliasSymbol?.escapedName === "fixedpoint" ||
+        context.checker.getContextualType(node.parent)?.aliasSymbol?.escapedName === "fixedpoint"
+      ) {
         //context.createTempNameForNode(node)
-        // @ts-ignore
         result.flags = 20 // Sending arbitrary flag for marking the node as fixedpoint
       }
       return result
