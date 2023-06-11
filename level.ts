@@ -1,6 +1,4 @@
-const hello = -1 as fx
-
-/*import { randomPos } from "./helpers/lib"
+import { randomPos } from "./helpers/lib"
 
 const width = 500 as fx
 const height = 500 as fx
@@ -29,4 +27,3 @@ pewpew.add_update_callback(() => {
     })
   }
 })
-*/
