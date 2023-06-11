@@ -16,6 +16,6 @@
     "semi": "off",
     "eqeqeq": ["error", "always"],
     "no-constant-condition": "warn",
-    ""
+    "no-empty": "warn"
   }
 }

@@ -103,7 +103,7 @@ declare namespace pewpew {
   /**
    * Adds a callback that will be updated at each game tick.
    */
-  export function add_update_callback(update_callback: Function): void
+  export function add_update_callback(update_callback: () => void): void
   /**
    * Returns the number of players in the game.
    */
@@ -503,7 +503,7 @@ declare namespace pewpew {
    *
    * The rotation is applied along the axis defined by `x_axis`, `y_axis`, `z_axis`.
    */
-  export function customizable_entity_set_mesh_angle(
+  export function customizable_entity_add_rotation_to_mesh(
     entity_id: EntityId,
     angle: fixedpoint,
     x_axis: fixedpoint,
@@ -519,7 +519,7 @@ declare namespace pewpew {
    *
    * If not set, the rendering radius is an unspecified large number that effectively makes the entity always be rendered, even if not visible.
    */
-  export function entity_set_radius(entity_id: EntityId, radius: fixedpoint): void
+  export function customizable_entity_set_visibility_radius(entity_id: EntityId, radius: fixedpoint): void
   /**
    * `collide_with_walls` configures whether the entity should stop when colliding with walls.
    *

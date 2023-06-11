@@ -17,6 +17,10 @@ declare const mulFx: LuaMultiplication<fixedpoint, fixedpoint, fixedpoint>
  * Same as `left / right`
  */
 declare const divFx: LuaDivision<fixedpoint, fixedpoint, fixedpoint>
+/**
+ * Same as `left % right`
+ */
+declare const modFx: LuaModulo<fixedpoint, fixedpoint, fixedpoint>
 
 /**
  * fmath contains a set of mathematical functions that work with FixedPoint numbers and integers.

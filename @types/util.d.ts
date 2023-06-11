@@ -3,7 +3,7 @@
  */
 
 /**
- * 
+ *
  */
 declare interface Mesh {
   vertexes: Array<[x: number, y: number, z: number] | [x: number, y: number]>

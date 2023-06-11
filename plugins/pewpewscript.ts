@@ -54,10 +54,13 @@ const plugin: tstl.Plugin = {
     void emitHost
 
     for (const file of result) {
-      file.code = file.code.replace(REQUIRE_FUNCTION_REGEXP, (match: string, modulePath: string) => {
-        const newPath = modulePath.replace(/\./g, "/")
-        return `require("/dynamic/${newPath}.lua")`
-      })
+      file.code = file.code.replace(
+        REQUIRE_FUNCTION_REGEXP,
+        (match: string, modulePath: string) => {
+          const newPath = modulePath.replace(/\./g, "/")
+          return `require("/dynamic/${newPath}.lua")`
+        }
+      )
     }
     //console.log(result)
     console.log("PewPewScript compiled.")
