@@ -37,7 +37,7 @@ declare namespace fmath {
    *
    * `max` must be greater or equal to `min`.
    */
-  export function random_fixedpoint(min: number, max: number): number
+  export function random_int(min: number, max: number): number
   /**
    * Returns the square root of `x`.
    *
