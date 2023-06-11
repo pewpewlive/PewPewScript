@@ -17,7 +17,7 @@ class CustomPrinter extends tstl.LuaPrinter {
 
   /* Override printNumericLiteral */
   public printNumericLiteral(expression: tstl.NumericLiteral): SourceNode {
-    console.log(expression)
+    // console.log(expression)
     if (expression.flags === 20)
       // Check for the arbitrary flag
       return this.createSourceNode(expression, `${expression.value}fx`)
