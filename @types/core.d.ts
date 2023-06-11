@@ -2,17 +2,19 @@
  * @noSelfInFile
  */
 /**
- * Stores fixed point numbers. Used for storing and computing all the game related values that require more precision than what integer numbers can provide.
+ * Stores fixed point numbers. Used for storing and computing all the game related values that
+ * require more precision than what integer numbers can provide.
  */
 declare type fixedpoint = number & { _: "fixedpoint" }
 /**
  * An alias for `fixedpoint` type.
  *
- * Stores fixed point numbers. Used for storing and computing all the game related values that require more precision than what integer numbers can provide.
+ * Stores fixed point numbers. Used for storing and computing all the game related values that
+ * require more precision than what integer numbers can provide.
  */
 declare type fx = fixedpoint
-declare interface EntityId {}
-declare interface WallId {}
+declare interface EntityId { _: "entity_id" }
+declare interface WallId { _: "wall_id" }
 
 declare interface PlayerConfig {
   has_lost?: boolean
@@ -47,7 +49,7 @@ declare interface BonusConfig {
   speed_factor?: fixedpoint
   speed_offset?: fixedpoint
   speed_duration?: number
-  taken_callback?: Function
+  taken_callback?: (entity_id: EntityId, player_index: number, ship_entity_id: EntityId) => void
 }
 
 declare interface FloatingMessageConfig {

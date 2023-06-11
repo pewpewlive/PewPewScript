@@ -88,7 +88,7 @@ declare namespace pewpew {
    */
   export function set_level_size(width: fixedpoint, height: fixedpoint): void
   /**
-   * Adds a wall to the level from (start_x,start_y) to (end_x,end_y), and returns its wall ID.
+   * Adds a wall to the level from (`start_x`, `start_y`) to (`end_x`, `end_y`), and returns its wall ID.
    */
   export function add_wall(
     start_x: fixedpoint,
@@ -154,7 +154,8 @@ declare namespace pewpew {
    */
   export function add_damage_to_player_ship(ship_id: EntityId, damage: number): void
   /**
-   * Adds an arrow to the ship identified with ship_id pointing towards the entity identified with entity_id, and returns the identifier of the arrow.
+   * Adds an arrow to the ship identified with ship_id pointing towards the entity identified with `entity_id`,
+   * and returns the identifier of the arrow.
    */
   export function add_arrow_to_player_ship(
     ship_id: EntityId,

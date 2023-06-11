@@ -12,8 +12,9 @@
   "exclude": ["plugins"],
   "tstl": {
     "luaTarget": "5.3",
-    //"sourceMapTraceback": true // TODO: discuss the possibility
+    "sourceMapTraceback": false,
     "luaPlugins": [{ "name": "./plugins/pewpewscript.ts" }],
+    "luaLibImport": "inline",
     "noHeader": true,
     "noImplicitSelf": true, // OOP usage in PewPew is discouraged
   }
