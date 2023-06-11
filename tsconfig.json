@@ -15,7 +15,6 @@
     //"sourceMapTraceback": true // TODO: discuss the possibility
     "luaPlugins": [{ "name": "./plugins/pewpewscript.ts" }],
     "noHeader": true,
-    "tstlVerbose": true,
-    "noImplicitSelf": true // OOP usage in PewPew is discouraged
+    "noImplicitSelf": true, // OOP usage in PewPew is discouraged
   }
 }
