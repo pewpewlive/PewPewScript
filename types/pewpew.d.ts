@@ -573,7 +573,7 @@ declare namespace pewpew {
    * `explosion_duration` must be less than 255.
    * Any scale applied to the entity is also applied to the explosion.
    */
-  export function customizable_entity_start_spawning(
+  export function customizable_entity_start_exploding(
     entity_id: EntityId,
     explosion_duration: number
   ): void
